@@ -1,6 +1,5 @@
-import 'package:bmi_calc/cubit/bmi_cubit.dart';
-import 'package:bmi_calc/ui/home/home_screen.dart';
-import 'package:bmi_calc/ui/result/result_screen.dart';
+import '../../cubit/bmi_cubit.dart';
+import '../result/result_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -18,17 +17,17 @@ class ActionButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: () {
           if (route == 'home') {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => ResultScreen(),
-              ),
-            );
+            var currentState = (context.read<BmiCubit>().state as BmiInitial);
+
+            Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => ResultScreen(),
+            ));
+            context
+                .read<BmiCubit>()
+                .calculateBmi(currentState.height, currentState.weight);
           } else if (route == 'result') {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => HomeScreen(),
-              ),
-            );
+            context.read<BmiCubit>().reCalculateBmi();
+            Navigator.of(context).pop();
           }
         },
         style: ElevatedButton.styleFrom(

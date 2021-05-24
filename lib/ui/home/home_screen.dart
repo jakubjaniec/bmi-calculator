@@ -1,7 +1,7 @@
-import 'package:bmi_calc/ui/general/action_button.dart';
-import 'package:bmi_calc/ui/home/widgets/gender_field.dart';
-import 'package:bmi_calc/ui/home/widgets/height_field.dart';
-import 'package:bmi_calc/ui/home/widgets/number_field.dart';
+import '../general/action_button.dart';
+import 'widgets/gender_field.dart';
+import 'widgets/height_field.dart';
+import 'widgets/number_field.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
@@ -23,51 +23,39 @@ class HomeScreen extends StatelessWidget {
             leading: Icon(Icons.sort, size: 32),
             backgroundColor: HexColor('#0A0D22'),
           ),
-          body: SingleChildScrollView(
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 30.0, vertical: 40.0),
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          GenderField(gender: 'male'),
-                          SizedBox(width: 10.0),
-                          GenderField(gender: 'female'),
-                        ],
-                      ),
-                      SizedBox(height: 30.0),
-                      HeightField(),
-                      SizedBox(height: 30.0),
-                      Row(
-                        children: [
-                          NumberField(type: 'weight'),
-                          SizedBox(width: 10.0),
-                          NumberField(type: 'age'),
-                        ],
-                      ),
-
-                      // InputField(
-                      //     title: 'Height [cm]', controller: heightTextController),
-                      // SizedBox(height: 20.0),
-                      // InputField(
-                      //     title: 'Weight [kg]', controller: weightTextController),
-                      // ElevatedButton(
-                      //     onPressed: () {
-                      //       context.read<BmiCubit>().calculateBmi(
-                      //             height: heightTextController.text,
-                      //             weight: weightTextController.text,
-                      //           );
-                      //     },
-                      //     child: Text('calculate bmi')),
-                      // ResultWidget(),
-                    ],
+          body: Container(
+            width: MediaQuery.of(context).size.width,
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 30.0, vertical: 40.0),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Expanded(child: GenderField(gender: 'male')),
+                            SizedBox(width: 10.0),
+                            Expanded(child: GenderField(gender: 'female')),
+                          ],
+                        ),
+                        SizedBox(height: 30.0),
+                        HeightField(),
+                        SizedBox(height: 30.0),
+                        Row(
+                          children: [
+                            Expanded(child: NumberField(type: 'weight')),
+                            SizedBox(width: 10.0),
+                            Expanded(child: NumberField(type: 'age')),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                ActionButton(route: 'home'),
-              ],
+                  ActionButton(route: 'home'),
+                ],
+              ),
             ),
           ),
         );
@@ -75,48 +63,3 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
-
-// class InputField extends StatelessWidget {
-//   final String title;
-//   final TextEditingController controller;
-
-//   InputField({required this.title, required this.controller});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Row(
-//       mainAxisAlignment: MainAxisAlignment.center,
-//       children: [
-//         SizedBox(
-//           height: 40,
-//           width: 200,
-//           child: TextField(
-//             controller: controller,
-//             keyboardType: TextInputType.number,
-//             decoration: InputDecoration(
-//               labelText: '$title',
-//               border: OutlineInputBorder(
-//                   borderSide: BorderSide(color: Colors.grey, width: 1.0)),
-//             ),
-//           ),
-//         ),
-//       ],
-//     );
-//   }
-// }
-
-// class ResultWidget extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return BlocBuilder<BmiCubit, BmiState>(
-//       builder: (context, state) {
-//         if (state is BmiCalculated)
-//           return Text(state.bmi.toString());
-//         else if (state is BmiCalculating)
-//           return CircularProgressIndicator();
-//         else if (state is BmiError) return Text(state.error.toString());
-//         return Container();
-//       },
-//     );
-//   }
-// }

@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 import 'dart:math' as Math;
@@ -10,19 +8,29 @@ class BmiCubit extends Cubit<BmiState> {
   BmiCubit()
       : super(BmiInitial(gender: 'male', height: 180, weight: 74, age: 19));
 
-  void calculateBmi({height, weight}) {
-    emit(BmiCalculating());
+  void calculateBmi(height, weight) {
+    BmiInitial currentState = (state as BmiInitial);
 
-    Timer(Duration(seconds: 2), () {
-      if (height.length == 0 || weight.length == 0) {
-        emit(BmiError(error: 'Fill all fields'));
-        return;
-      }
-      double heightInMeters = double.parse(height) / 100;
-      double bmi = double.parse(weight) / (Math.pow(heightInMeters, 2));
-      print(bmi);
-      emit(BmiCalculated(bmi: bmi));
-    });
+    double heightInMeters = currentState.height! / 100;
+    double bmi =
+        (currentState.weight! / (Math.pow(heightInMeters, 2))).floorToDouble();
+    print(bmi);
+    emit(BmiCalculated(
+        bmi: bmi,
+        gender: currentState.gender,
+        height: currentState.height,
+        weight: currentState.weight,
+        age: currentState.age));
+  }
+
+  void reCalculateBmi() {
+    BmiCalculated currentState = (state as BmiCalculated);
+    emit(BmiInitial(
+      gender: currentState.gender,
+      height: currentState.height,
+      weight: currentState.weight,
+      age: currentState.age,
+    ));
   }
 
   void pickGender(gender) {

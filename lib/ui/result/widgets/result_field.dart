@@ -1,4 +1,6 @@
+import '../../../cubit/bmi_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 class ResultField extends StatelessWidget {
@@ -20,12 +22,19 @@ class ResultField extends StatelessWidget {
                         fontSize: 20.0,
                         color: Colors.green[200])),
                 SizedBox(height: 20.0),
-                Text('22.1',
-                    style: TextStyle(
-                      fontSize: 100.0,
-                      fontWeight: FontWeight.w700,
-                      color: Colors.white,
-                    )),
+                BlocBuilder<BmiCubit, BmiState>(
+                  builder: (context, state) {
+                    if (state is BmiCalculated) {
+                      return Text(state.bmi.toString(),
+                          style: TextStyle(
+                            fontSize: 100.0,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.white,
+                          ));
+                    }
+                    return Container();
+                  },
+                ),
                 SizedBox(height: 30.0),
                 Text('Normal BMI range:',
                     style: TextStyle(
