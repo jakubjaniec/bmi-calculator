@@ -16,11 +16,7 @@ class ResultField extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 30.0),
             child: Column(
               children: [
-                Text('NORMAL',
-                    style: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 20.0,
-                        color: Colors.green[200])),
+                BmiCategory(),
                 SizedBox(height: 20.0),
                 BlocBuilder<BmiCubit, BmiState>(
                   builder: (context, state) {
@@ -42,7 +38,7 @@ class ResultField extends StatelessWidget {
                         fontWeight: FontWeight.w500,
                         fontSize: 20.0)),
                 SizedBox(height: 10.0),
-                Text('18,5 - 25 kg/m2',
+                Text('18,5 - 25',
                     style: TextStyle(
                         fontSize: 20.0,
                         fontWeight: FontWeight.w700,
@@ -78,5 +74,37 @@ class ResultField extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+class BmiCategory extends StatelessWidget {
+  const BmiCategory({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    String determineCategory() {
+      if (context.watch<BmiCubit>().state is BmiCalculated) {
+        double? bmi = (context.watch<BmiCubit>().state as BmiCalculated).bmi;
+
+        if (bmi! < 18.5) {
+          return "UNDERWEIGHT";
+        } else if (bmi >= 18.5 && bmi <= 24.9) {
+          return "NORMAL";
+        } else if (bmi >= 25 && bmi <= 29.9) {
+          return "OVERWEIGHT";
+        } else {
+          return "OBESITY";
+        }
+      }
+      return '';
+    }
+
+    return Text(determineCategory(),
+        style: TextStyle(
+            fontWeight: FontWeight.w700,
+            fontSize: 20.0,
+            color: Colors.green[200]));
   }
 }
