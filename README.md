@@ -13,6 +13,8 @@ Simple bmi calculator.
 
 Bmi calculator created with Cubit as a state management package.
 
+[UI Design](https://dribbble.com/shots/4585382-Simple-BMI-Calculator)
+
 ## :gear: Technologies
 
 Project is created with:
@@ -34,7 +36,7 @@ To run this project follow these steps:
 1. Clone the repository
 
 ```
-$ git clone https://github.com/kubacarbon/bmi-calculator.git
+$ git clone https://github.com/jakubjaniec/bmi-calculator.git
 ```
 
 2. Open the project
