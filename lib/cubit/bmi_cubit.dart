@@ -14,7 +14,7 @@ class BmiCubit extends Cubit<BmiState> {
     double heightInMeters = currentState.height! / 100;
     double bmi =
         (currentState.weight! / (Math.pow(heightInMeters, 2))).floorToDouble();
-    print(bmi);
+
     emit(BmiCalculated(
         bmi: bmi,
         gender: currentState.gender,
@@ -25,6 +25,7 @@ class BmiCubit extends Cubit<BmiState> {
 
   void reCalculateBmi() {
     BmiCalculated currentState = (state as BmiCalculated);
+
     emit(BmiInitial(
       gender: currentState.gender,
       height: currentState.height,
@@ -33,69 +34,65 @@ class BmiCubit extends Cubit<BmiState> {
     ));
   }
 
-  void pickGender(gender) {
-    emit(
-      BmiInitial(
-        gender: gender,
-        height: (state as BmiInitial).height,
-        weight: (state as BmiInitial).weight,
-        age: (state as BmiInitial).age,
-      ),
-    );
+  void pickGender({required String? gender}) {
+    BmiInitial currentState = (state as BmiInitial);
+
+    emit(BmiInitial(
+      gender: gender,
+      height: currentState.height,
+      weight: currentState.weight,
+      age: currentState.age,
+    ));
   }
 
-  void pickHeight(height) {
-    emit(
-      BmiInitial(
-        height: height,
-        gender: (state as BmiInitial).gender,
-        weight: (state as BmiInitial).weight,
-        age: (state as BmiInitial).age,
-      ),
-    );
+  void pickHeight({required double? height}) {
+    BmiInitial currentState = (state as BmiInitial);
+
+    emit(BmiInitial(
+      height: height,
+      gender: currentState.gender,
+      weight: currentState.weight,
+      age: currentState.age,
+    ));
   }
 
-  void pickWeight(event) {
+  void pickWeight({required String? event}) {
+    BmiInitial currentState = (state as BmiInitial);
+
     if (event == 'increment') {
-      emit(
-        BmiInitial(
-          height: (state as BmiInitial).height,
-          gender: (state as BmiInitial).gender,
-          weight: (state as BmiInitial).weight! + 1,
-          age: (state as BmiInitial).age,
-        ),
-      );
+      emit(BmiInitial(
+        height: currentState.height,
+        gender: currentState.gender,
+        weight: currentState.weight! + 1,
+        age: currentState.age,
+      ));
     } else if (event == 'decrement') {
-      emit(
-        BmiInitial(
-          height: (state as BmiInitial).height,
-          gender: (state as BmiInitial).gender,
-          weight: (state as BmiInitial).weight! - 1,
-          age: (state as BmiInitial).age,
-        ),
-      );
+      emit(BmiInitial(
+        height: currentState.height,
+        gender: currentState.gender,
+        weight: currentState.weight! - 1,
+        age: currentState.age,
+      ));
     }
   }
 
-  void pickAge(event) {
+  void pickAge({required String? event}) {
+    BmiInitial currentState = (state as BmiInitial);
+
     if (event == 'increment') {
-      emit(
-        BmiInitial(
-          height: (state as BmiInitial).height,
-          gender: (state as BmiInitial).gender,
-          weight: (state as BmiInitial).weight,
-          age: (state as BmiInitial).age! + 1,
-        ),
-      );
+      emit(BmiInitial(
+        height: currentState.height,
+        gender: currentState.gender,
+        weight: currentState.weight,
+        age: currentState.age! + 1,
+      ));
     } else if (event == 'decrement') {
-      emit(
-        BmiInitial(
-          height: (state as BmiInitial).height,
-          gender: (state as BmiInitial).gender,
-          weight: (state as BmiInitial).weight,
-          age: (state as BmiInitial).age! - 1,
-        ),
-      );
+      emit(BmiInitial(
+        height: currentState.height,
+        gender: currentState.gender,
+        weight: currentState.weight,
+        age: currentState.age! - 1,
+      ));
     }
   }
 }

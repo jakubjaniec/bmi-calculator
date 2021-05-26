@@ -1,24 +1,21 @@
+import 'package:bmi_calc/ui/general/bmi_app_bar.dart';
+
 import '../general/action_button.dart';
 import 'widgets/result_field.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 class ResultScreen extends StatelessWidget {
+  final TextStyle _headlineStyle = TextStyle(
+      fontSize: 40.0, fontWeight: FontWeight.w500, color: Colors.white);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: HexColor('#090C20'),
-      appBar: AppBar(
-        title: Text(
-          'BMI CALCULATOR',
-          style: TextStyle(fontWeight: FontWeight.w400),
-        ),
-        leading: Icon(Icons.sort, size: 32),
-        backgroundColor: HexColor('#0A0D22'),
-      ),
+      appBar: BmiAppBar(),
       body: SingleChildScrollView(
         child: Container(
-          // height: MediaQuery.of(context).size.height,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -28,11 +25,7 @@ class ResultScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Your Result',
-                        style: TextStyle(
-                            fontSize: 40.0,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.white)),
+                    Text('Your Result', style: _headlineStyle),
                     SizedBox(height: 30.0),
                     ResultField(),
                   ],

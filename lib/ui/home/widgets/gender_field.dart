@@ -12,7 +12,7 @@ class GenderField extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        context.read<BmiCubit>().pickGender(gender);
+        context.read<BmiCubit>().pickGender(gender: gender);
       },
       child: Container(
         height: 170,

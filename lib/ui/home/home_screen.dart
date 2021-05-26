@@ -1,3 +1,5 @@
+import 'package:bmi_calc/ui/general/bmi_app_bar.dart';
+
 import '../general/action_button.dart';
 import 'widgets/gender_field.dart';
 import 'widgets/height_field.dart';
@@ -15,14 +17,7 @@ class HomeScreen extends StatelessWidget {
       builder: (context) {
         return Scaffold(
           backgroundColor: HexColor('#090C20'),
-          appBar: AppBar(
-            title: Text(
-              'BMI CALCULATOR',
-              style: TextStyle(fontWeight: FontWeight.w400),
-            ),
-            leading: Icon(Icons.sort, size: 32),
-            backgroundColor: HexColor('#0A0D22'),
-          ),
+          appBar: BmiAppBar(),
           body: Container(
             width: MediaQuery.of(context).size.width,
             child: SingleChildScrollView(
