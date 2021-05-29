@@ -1,46 +1,85 @@
-import '../../../cubit/bmi_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hexcolor/hexcolor.dart';
 
+import '../../../cubit/bmi_cubit.dart';
+
 class ResultField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final double height = MediaQuery.of(context).size.height;
+
     return Container(
       color: HexColor('#1D1F33'),
-      height: 550,
+      height: height * 0.6,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 30.0),
+            padding: EdgeInsets.symmetric(vertical: height * 0.033),
             child: Column(
               children: [
-                _BmiCategory(),
-                SizedBox(height: 20.0),
-                _BmiResult(),
-                SizedBox(height: 30.0),
+                const _BmiCategory(),
+                SizedBox(height: height * 0.022),
+                const _BmiResult(),
+                SizedBox(height: height * 0.033),
                 Text('Normal BMI range:',
-                    style: TextStyle(
-                        color: Colors.grey,
+                    textScaleFactor: height / 900,
+                    style: const TextStyle(
+                        fontSize: 18.0,
                         fontWeight: FontWeight.w500,
-                        fontSize: 20.0)),
-                SizedBox(height: 10.0),
+                        color: Colors.grey)),
+                SizedBox(height: height * 0.011),
                 Text('18,5 - 25',
-                    style: TextStyle(
-                        fontSize: 20.0,
+                    textScaleFactor: height / 900,
+                    style: const TextStyle(
+                        fontSize: 18.0,
                         fontWeight: FontWeight.w700,
                         color: Colors.white)),
-                SizedBox(height: 25.0),
-                _BmiResultInfo(),
-                SizedBox(height: 70.0),
-                _SaveResultButton(),
+                SizedBox(height: height * 0.027),
+                const _BmiResultInfo(),
+                SizedBox(height: height * 0.078),
+                const _SaveResultButton(),
               ],
             ),
           ),
         ],
       ),
     );
+  }
+}
+
+class _BmiCategory extends StatelessWidget {
+  const _BmiCategory({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    String determineCategory() {
+      if (context.watch<BmiCubit>().state is BmiCalculated) {
+        final double? bmi =
+            (context.watch<BmiCubit>().state as BmiCalculated).bmi;
+
+        if (bmi! < 18.5) {
+          return "UNDERWEIGHT";
+        } else if (bmi >= 18.5 && bmi <= 24.9) {
+          return "NORMAL";
+        } else if (bmi >= 25 && bmi <= 29.9) {
+          return "OVERWEIGHT";
+        } else {
+          return "OBESITY";
+        }
+      }
+      return '';
+    }
+
+    return Text(determineCategory(),
+        textScaleFactor: MediaQuery.of(context).size.height / 900,
+        style: TextStyle(
+            fontSize: 20.0,
+            fontWeight: FontWeight.w700,
+            color: Colors.green[200]));
   }
 }
 
@@ -53,40 +92,18 @@ class _BmiResult extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<BmiCubit, BmiState>(
       builder: (context, state) {
+        final double height = MediaQuery.of(context).size.height;
         if (state is BmiCalculated) {
           return Text(state.bmi.toString(),
-              style: TextStyle(
-                fontSize: 100.0,
+              textScaleFactor: height / 900,
+              style: const TextStyle(
+                fontSize: 90.0,
                 fontWeight: FontWeight.w700,
                 color: Colors.white,
               ));
         }
         return Container();
       },
-    );
-  }
-}
-
-class _SaveResultButton extends StatelessWidget {
-  const _SaveResultButton({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: 230.0,
-      height: 60.0,
-      child: ElevatedButton(
-          onPressed: () {},
-          style: ElevatedButton.styleFrom(
-            primary: HexColor('#0A0D22'),
-          ),
-          child: Text('SAVE RESULT',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 18.0,
-              ))),
     );
   }
 }
@@ -100,7 +117,8 @@ class _BmiResultInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     String determineInfoText() {
       if (context.watch<BmiCubit>().state is BmiCalculated) {
-        double? bmi = (context.watch<BmiCubit>().state as BmiCalculated).bmi;
+        final double? bmi =
+            (context.watch<BmiCubit>().state as BmiCalculated).bmi;
 
         if (bmi! < 18.5) {
           return "Your result suggests you\nare underweight.";
@@ -117,8 +135,8 @@ class _BmiResultInfo extends StatelessWidget {
 
     return Text(determineInfoText(),
         textAlign: TextAlign.center,
-        softWrap: false,
-        style: TextStyle(
+        textScaleFactor: MediaQuery.of(context).size.height / 900,
+        style: const TextStyle(
           fontSize: 22.0,
           height: 1.3,
           fontWeight: FontWeight.w500,
@@ -127,34 +145,30 @@ class _BmiResultInfo extends StatelessWidget {
   }
 }
 
-class _BmiCategory extends StatelessWidget {
-  const _BmiCategory({
+class _SaveResultButton extends StatelessWidget {
+  const _SaveResultButton({
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    String determineCategory() {
-      if (context.watch<BmiCubit>().state is BmiCalculated) {
-        double? bmi = (context.watch<BmiCubit>().state as BmiCalculated).bmi;
+    final double height = MediaQuery.of(context).size.height;
+    final double width = MediaQuery.of(context).size.width;
 
-        if (bmi! < 18.5) {
-          return "UNDERWEIGHT";
-        } else if (bmi >= 18.5 && bmi <= 24.9) {
-          return "NORMAL";
-        } else if (bmi >= 25 && bmi <= 29.9) {
-          return "OVERWEIGHT";
-        } else {
-          return "OBESITY";
-        }
-      }
-      return '';
-    }
-
-    return Text(determineCategory(),
-        style: TextStyle(
-            fontWeight: FontWeight.w700,
-            fontSize: 20.0,
-            color: Colors.green[200]));
+    return SizedBox(
+      width: width * 0.56,
+      height: height * 0.07,
+      child: ElevatedButton(
+          onPressed: () {},
+          style: ElevatedButton.styleFrom(
+            primary: HexColor('#0A0D22'),
+          ),
+          child: Text('SAVE RESULT',
+              textScaleFactor: height / 900,
+              style: const TextStyle(
+                fontSize: 20.0,
+                color: Colors.white,
+              ))),
+    );
   }
 }

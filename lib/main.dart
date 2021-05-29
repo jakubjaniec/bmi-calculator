@@ -10,9 +10,10 @@ import 'ui/home/home_screen.dart';
 void main() {
   runApp(
     DevicePreview(
+      // enabled: false,
       enabled: !kReleaseMode,
       builder: (context) => MyApp(),
-      plugins: [
+      plugins: const [
         ScreenshotPlugin(),
       ],
     ),
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => BmiCubit(),
+      create: (_) => BmiCubit(),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         locale: DevicePreview.locale(context),

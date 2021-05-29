@@ -1,36 +1,41 @@
-import '../../../cubit/bmi_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hexcolor/hexcolor.dart';
 
+import '../../../cubit/bmi_cubit.dart';
+
 class NumberField extends StatelessWidget {
   final String? type;
 
-  NumberField({this.type});
+  const NumberField({this.type});
 
   @override
   Widget build(BuildContext context) {
+    final double height = MediaQuery.of(context).size.height;
+    final double width = MediaQuery.of(context).size.width;
+
     return Container(
-      height: 200,
-      width: MediaQuery.of(context).size.width,
+      height: height * 0.22,
+      width: width,
       color: HexColor('#1D1F33'),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(type == 'weight' ? 'WEIGHT' : 'AGE',
-              style: TextStyle(
+              textScaleFactor: height / 900,
+              style: const TextStyle(
                 fontSize: 18.0,
                 fontWeight: FontWeight.w500,
                 color: Colors.grey,
               )),
-          SizedBox(height: 5.0),
+          SizedBox(height: height * 0.008),
           _ValueText(type: type),
-          SizedBox(height: 10.0),
+          SizedBox(height: height * 0.015),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               _CustomButton(type: type, action: 'decrement'),
-              SizedBox(width: 15.0),
+              SizedBox(width: width * 0.02),
               _CustomButton(type: type, action: 'increment'),
             ],
           )
@@ -55,9 +60,10 @@ class _ValueText extends StatelessWidget {
         if (state is BmiInitial) {
           return Text(
             type == 'weight' ? state.weight.toString() : state.age.toString(),
-            style: TextStyle(
+            textScaleFactor: MediaQuery.of(context).size.height / 900,
+            style: const TextStyle(
               fontWeight: FontWeight.w700,
-              fontSize: 50,
+              fontSize: 50.0,
               color: Colors.white,
             ),
           );
@@ -80,25 +86,27 @@ class _CustomButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 55.0,
-      width: 55.0,
-      child: ElevatedButton(
-        onPressed: () {
-          if (type == 'weight') {
-            context.read<BmiCubit>().pickWeight(event: action);
-          } else if (type == 'age') {
-            context.read<BmiCubit>().pickAge(event: action);
-          }
-        },
-        child: Icon(
-          action == 'increment' ? Icons.add : Icons.remove,
+    final double height = MediaQuery.of(context).size.height;
+
+    return ElevatedButton(
+      onPressed: () {
+        if (type == 'weight') {
+          context.read<BmiCubit>().pickWeight(event: action);
+        } else if (type == 'age') {
+          context.read<BmiCubit>().pickAge(event: action);
+        }
+      },
+      style: ElevatedButton.styleFrom(
+        primary: HexColor('#323546'),
+        minimumSize: Size(
+          height * 0.06,
+          height * 0.06,
         ),
-        style: ElevatedButton.styleFrom(
-          primary: HexColor('#323546'),
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(50.0)),
-        ),
+        shape: const CircleBorder(),
+      ),
+      child: Icon(
+        action == 'increment' ? Icons.add : Icons.remove,
+        size: height * 0.03,
       ),
     );
   }

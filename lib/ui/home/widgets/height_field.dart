@@ -1,29 +1,34 @@
-import '../../../cubit/bmi_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hexcolor/hexcolor.dart';
+
+import '../../../cubit/bmi_cubit.dart';
 
 class HeightField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final double height = MediaQuery.of(context).size.height;
+    final double width = MediaQuery.of(context).size.width;
+
     return Container(
-        height: 200,
-        width: MediaQuery.of(context).size.width,
+        height: height * 0.22,
+        width: width,
         color: HexColor('#1D1F33'),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text('HEIGHT',
-                style: TextStyle(
+                textScaleFactor: height / 900,
+                style: const TextStyle(
                   fontWeight: FontWeight.w500,
-                  fontSize: 18,
+                  fontSize: 18.0,
                   color: Colors.grey,
                 )),
-            SizedBox(height: 5.0),
-            _ValueText(),
-            SizedBox(height: 20.0),
-            _HeightSlider(),
+            SizedBox(height: height * 0.009),
+            const _ValueText(),
+            SizedBox(height: height * 0.02),
+            const _HeightSlider(),
           ],
         ));
   }
@@ -42,12 +47,12 @@ class _ValueText extends StatelessWidget {
           return Text.rich(
             TextSpan(
               text: state.height.toString(),
-              style: TextStyle(
+              style: const TextStyle(
                 fontWeight: FontWeight.w700,
-                fontSize: 50,
+                fontSize: 50.0,
                 color: Colors.white,
               ),
-              children: [
+              children: const [
                 TextSpan(
                     text: 'cm',
                     style: TextStyle(
@@ -56,6 +61,7 @@ class _ValueText extends StatelessWidget {
                     )),
               ],
             ),
+            textScaleFactor: MediaQuery.of(context).size.height / 900,
           );
         }
         return Container();
@@ -72,7 +78,7 @@ class _HeightSlider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 250.0,
+      width: MediaQuery.of(context).size.width * 0.65,
       child: BlocBuilder<BmiCubit, BmiState>(
         builder: (context, state) {
           if (state is BmiInitial) {

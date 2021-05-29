@@ -1,6 +1,7 @@
+import 'dart:math';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
-import 'dart:math' as Math;
 
 part 'bmi_state.dart';
 
@@ -8,12 +9,12 @@ class BmiCubit extends Cubit<BmiState> {
   BmiCubit()
       : super(BmiInitial(gender: 'male', height: 180, weight: 74, age: 19));
 
-  void calculateBmi(height, weight) {
-    BmiInitial currentState = (state as BmiInitial);
+  void calculateBmi(double? height, int? weight) {
+    final BmiInitial currentState = state as BmiInitial;
 
-    double heightInMeters = currentState.height! / 100;
-    double bmi =
-        (currentState.weight! / (Math.pow(heightInMeters, 2))).floorToDouble();
+    final double heightInMeters = currentState.height! / 100;
+    final double bmi =
+        (currentState.weight! / (pow(heightInMeters, 2))).floorToDouble();
 
     emit(BmiCalculated(
         bmi: bmi,
@@ -24,7 +25,7 @@ class BmiCubit extends Cubit<BmiState> {
   }
 
   void reCalculateBmi() {
-    BmiCalculated currentState = (state as BmiCalculated);
+    final BmiCalculated currentState = state as BmiCalculated;
 
     emit(BmiInitial(
       gender: currentState.gender,
@@ -35,7 +36,7 @@ class BmiCubit extends Cubit<BmiState> {
   }
 
   void pickGender({required String? gender}) {
-    BmiInitial currentState = (state as BmiInitial);
+    final BmiInitial currentState = state as BmiInitial;
 
     emit(BmiInitial(
       gender: gender,
@@ -46,7 +47,7 @@ class BmiCubit extends Cubit<BmiState> {
   }
 
   void pickHeight({required double? height}) {
-    BmiInitial currentState = (state as BmiInitial);
+    final BmiInitial currentState = state as BmiInitial;
 
     emit(BmiInitial(
       height: height,
@@ -57,7 +58,7 @@ class BmiCubit extends Cubit<BmiState> {
   }
 
   void pickWeight({required String? event}) {
-    BmiInitial currentState = (state as BmiInitial);
+    final BmiInitial currentState = state as BmiInitial;
 
     if (event == 'increment') {
       emit(BmiInitial(
@@ -77,7 +78,7 @@ class BmiCubit extends Cubit<BmiState> {
   }
 
   void pickAge({required String? event}) {
-    BmiInitial currentState = (state as BmiInitial);
+    final BmiInitial currentState = state as BmiInitial;
 
     if (event == 'increment') {
       emit(BmiInitial(

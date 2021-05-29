@@ -1,23 +1,28 @@
-import '../../cubit/bmi_cubit.dart';
-import '../result/result_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hexcolor/hexcolor.dart';
 
+import '../../cubit/bmi_cubit.dart';
+import '../result/result_screen.dart';
+
 class ActionButton extends StatelessWidget {
   final String? route;
 
-  ActionButton({this.route});
+  const ActionButton({this.route});
 
   @override
   Widget build(BuildContext context) {
+    final double height = MediaQuery.of(context).size.height;
+    final double width = MediaQuery.of(context).size.width;
+
     return SizedBox(
-      height: 70,
-      width: MediaQuery.of(context).size.width,
+      height: height * 0.08,
+      width: width,
       child: ElevatedButton(
         onPressed: () {
           if (route == 'home') {
-            var currentState = (context.read<BmiCubit>().state as BmiInitial);
+            final BmiInitial currentState =
+                context.read<BmiCubit>().state as BmiInitial;
 
             Navigator.of(context).push(MaterialPageRoute(
               builder: (context) => ResultScreen(),
@@ -35,7 +40,8 @@ class ActionButton extends StatelessWidget {
         ),
         child: Text(
             route == 'home' ? 'CALCULATE YOUR BMI' : 'RE-CALCULATE YOUR BMI',
-            style: TextStyle(
+            textScaleFactor: height / 900,
+            style: const TextStyle(
               color: Colors.white,
               fontSize: 19.0,
             )),
