@@ -24,6 +24,7 @@ Project is created with:
 - [Flutter_bloc](https://pub.dev/packages/flutter_bloc) version: 7.0.0
 - [Hexcolor](https://pub.dev/packages/hexcolor) version: 2.0.3
 - [Device_preview](https://pub.dev/packages/device_preview) version: 0.7.1
+- [Lint](https://pub.dev/packages/lint) version: 1.5.3
 
 ## :camera_flash: Screenshots
 
